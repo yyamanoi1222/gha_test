@@ -37,8 +37,6 @@ jobs:
         parallelism: [3]
         parallelism_index: [0, 1, 2]
 
-    continue-on-error: false
-
     steps:
       - uses: actions/checkout@v4
       - run: |
