@@ -22,6 +22,7 @@ jobs:
               - './fe/**'
 
   build:
+    needs: check
     if: ${{ needs.check.outputs.matched == 'true' }}
     runs-on: ubuntu-latest
 
