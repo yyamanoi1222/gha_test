@@ -40,7 +40,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          if [ ${{ matrix.parallelism_index }} -eq 0 ]; then
+          if [ ${{ matrix.parallelism_index }} -eq 4 ]; then
             exit 1
           fi
 
