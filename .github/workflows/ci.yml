@@ -48,8 +48,7 @@ jobs:
     needs: test-each
     runs-on: ubuntu-latest
 
-    if: always()
+    if: failure
 
     steps:
       - run: exit 1
-        if: failure()
