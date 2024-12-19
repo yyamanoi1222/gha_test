@@ -48,8 +48,8 @@ jobs:
     needs: test-each
     runs-on: ubuntu-latest
 
-    if: failure()
+    if: always()
 
     steps:
-      - uses: actions/checkout@v2
       - run: exit 1
+        if: failure()
