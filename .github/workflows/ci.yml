@@ -48,7 +48,8 @@ jobs:
     needs: test-each
     runs-on: ubuntu-latest
 
-    if: failure
+    if: always()
 
     steps:
       - run: exit 1
+        if: needs.test-each.result == 'failure'
