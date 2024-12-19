@@ -29,8 +29,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-  test:
+  test-each:
     needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parallelism: [3]
+        parallelism_index: [0, 1, 2]
+
+    steps:
+      - uses: actions/checkout@v4
+
+  test:
+    needs: test-each
     runs-on: ubuntu-latest
 
     steps:
