@@ -6,14 +6,50 @@ on:
       - main
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matched: ${{ steps.filter.outputs.matched }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            matched:
+              - './fe/**'
+
   build:
+    needs: check
+    if: ${{ needs.check.outputs.matched == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
+
+  test-each:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        parallelism: [3]
+        parallelism_index: [0, 1, 2]
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          if [ ${{ matrix.parallelism_index }} -eq 0 ]; then
+            exit 1
+          fi
 
   test:
+    needs: test-each
     runs-on: ubuntu-latest
 
+    if: always()
+
     steps:
-      - uses: actions/checkout@v2
+      - run: exit 1
+        if: needs.test-each.result == 'failure'
