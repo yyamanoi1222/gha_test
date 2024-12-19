@@ -40,7 +40,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          // if index is 0, fail the job
           if [ ${{ matrix.parallelism_index }} -eq 0 ]; then
             exit 1
           fi
