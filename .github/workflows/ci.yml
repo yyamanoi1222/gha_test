@@ -6,13 +6,30 @@ on:
       - main
 
 jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    outputs:
+      matched: ${{ steps.filter.outputs.matched }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/path-filter@v4
+        id: filter
+        with:
+          filters: |
+            matched:
+              - './fe/**'
+
   build:
+    if: ${{ needs.check.outputs.matched == 'true' }}
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
 
   test:
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
